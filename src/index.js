@@ -16,24 +16,30 @@ export default {
     try {
       const url = new URL(request.url);
       const path = url.pathname;
+      const viewAs = url.searchParams.get('view');
 
       // Detect if the request is from a bot
       const botDetected = isBot(request);
       const botType = getBotType(request);
+
+      // Allow override via query parameter
+      const showBotView = viewAs === 'bot' || (viewAs !== 'human' && botDetected);
 
       // Log for debugging
       console.log({
         path,
         botDetected,
         botType,
+        viewAs,
+        showBotView,
         userAgent: request.headers.get('user-agent'),
         timestamp: new Date().toISOString(),
       });
 
-      // Generate appropriate HTML based on visitor type
-      const html = botDetected
-        ? generateBotHTML(path)
-        : generateHumanHTML(path);
+      // Generate appropriate HTML based on visitor type or query parameter
+      const html = showBotView
+        ? generateBotHTML(path, url)
+        : generateHumanHTML(path, url);
 
       // Return response with appropriate headers
       return new Response(html, {
@@ -42,6 +48,7 @@ export default {
           'cache-control': 'public, max-age=300',
           'x-bot-detected': botDetected ? 'true' : 'false',
           'x-bot-type': botType || 'none',
+          'x-view-as': showBotView ? 'bot' : 'human',
           'x-powered-by': 'Cloudflare Workers',
         },
       });

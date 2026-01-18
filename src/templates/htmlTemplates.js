@@ -6,12 +6,17 @@ import {
 /**
  * Generates full HTML for bot crawlers with complete meta tags
  * @param {string} path - The URL path
- * @param {Object} customMeta - Optional custom meta tag data
+ * @param {URL} url - The full URL object
  * @returns {string} Complete HTML document for bots
  */
-export function generateBotHTML(path, customMeta = {}) {
-  const meta = generateMetaTags(path, customMeta);
+export function generateBotHTML(path, url) {
+  const meta = generateMetaTags(path, {});
   const ogTags = generateOpenGraphTags(meta);
+
+  // Generate human view URL
+  const humanUrl = new URL(url);
+  humanUrl.searchParams.set('view', 'human');
+  const humanViewLink = humanUrl.toString();
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -24,8 +29,27 @@ export function generateBotHTML(path, customMeta = {}) {
   ${ogTags}
 
   <link rel="canonical" href="${meta.url}" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+    .view-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #667eea;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+    .view-toggle:hover { background: #5568d3; }
+  </style>
 </head>
 <body>
+  <a href="${humanViewLink}" class="view-toggle">View as Human</a>
+
   <main>
     <h1>${meta.title}</h1>
     <p>${meta.description}</p>
@@ -51,11 +75,16 @@ export function generateBotHTML(path, customMeta = {}) {
 /**
  * Generates minimal HTML shell for human visitors with client-side app
  * @param {string} path - The URL path
- * @param {Object} customMeta - Optional custom meta tag data
+ * @param {URL} url - The full URL object
  * @returns {string} Minimal HTML shell for humans
  */
-export function generateHumanHTML(path, customMeta = {}) {
-  const meta = generateMetaTags(path, customMeta);
+export function generateHumanHTML(path, url) {
+  const meta = generateMetaTags(path, {});
+
+  // Generate bot view URL
+  const botUrl = new URL(url);
+  botUrl.searchParams.set('view', 'bot');
+  const botViewLink = botUrl.toString();
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -140,9 +169,26 @@ export function generateHumanHTML(path, customMeta = {}) {
       color: #718096;
       font-size: 0.9em;
     }
+    .view-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #667eea;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+      transition: background 0.3s;
+    }
+    .view-toggle:hover { background: #5568d3; }
   </style>
 </head>
 <body>
+  <a href="${botViewLink}" class="view-toggle">View as Bot</a>
+
   <div class="container">
     <main>
       <span class="badge">Human Visitor Detected</span>
