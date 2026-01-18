@@ -1,0 +1,9 @@
+name = "edge-compute-lab"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# Account ID will be added by Cloudflare when you run wrangler deploy
+# account_id = ""
+
+[observability]
+enabled = true

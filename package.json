@@ -1,0 +1,30 @@
+{
+  "name": "edge-compute-lab",
+  "version": "1.0.0",
+  "description": "Dynamic meta tag generation based on bot vs human traffic",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "lint": "biome check .",
+    "lint-fix": "biome check --write .",
+    "test": "jest",
+    "test-watch": "jest --watch"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "edge-compute",
+    "ssr",
+    "meta-tags"
+  ],
+  "author": "Adam Tigar",
+  "license": "MIT",
+  "devDependencies": {
+    "@biomejs/biome": "latest",
+    "@cloudflare/workers-types": "^4.20241127.0",
+    "jest": "^29.7.0",
+    "jest-environment-miniflare": "^2.14.2",
+    "wrangler": "^3.94.0"
+  }
+}
