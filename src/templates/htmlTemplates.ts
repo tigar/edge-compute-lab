@@ -63,7 +63,7 @@ export function generateBotHTML(path: string, url: URL): string {
   </main>
 
   <footer>
-    <p>&copy; 2024 Edge Compute Lab. Rendered for bots at the edge.</p>
+    <p>You are a bot.</p>
   </footer>
 </body>
 </html>`;
