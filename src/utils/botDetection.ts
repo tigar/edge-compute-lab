@@ -40,11 +40,11 @@ const BOT_PATTERNS = [
  * @param {Request} request - The incoming request object
  * @returns {boolean} True if the request is from a bot, false otherwise
  */
-export function isBot(request) {
+export function isBot(request: Request): boolean {
   const userAgent = request.headers.get('user-agent')?.toLowerCase() || '';
 
   // Check if any bot pattern matches
-  return BOT_PATTERNS.some(pattern => userAgent.includes(pattern));
+  return BOT_PATTERNS.some((pattern) => userAgent.includes(pattern));
 }
 
 /**
@@ -52,7 +52,7 @@ export function isBot(request) {
  * @param {Request} request - The incoming request object
  * @returns {string|null} The bot type or null if not a bot
  */
-export function getBotType(request) {
+export function getBotType(request: Request): string | null {
   const userAgent = request.headers.get('user-agent')?.toLowerCase() || '';
 
   for (const pattern of BOT_PATTERNS) {

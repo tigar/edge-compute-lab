@@ -1,5 +1,10 @@
-import { isBot, getBotType } from './utils/botDetection.js';
 import { generateBotHTML, generateHumanHTML } from './templates/htmlTemplates.js';
+import { getBotType, isBot } from './utils/botDetection.js';
+
+/**
+ * Environment bindings for the Cloudflare Worker
+ */
+export type Env = {};
 
 /**
  * Main worker entry point for handling requests
@@ -12,7 +17,7 @@ export default {
    * @param {Object} ctx - Execution context
    * @returns {Response} The response to send back
    */
-  async fetch(request, env, ctx) {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     try {
       const url = new URL(request.url);
       const path = url.pathname;
@@ -37,9 +42,7 @@ export default {
       });
 
       // Generate appropriate HTML based on visitor type or query parameter
-      const html = showBotView
-        ? generateBotHTML(path, url)
-        : generateHumanHTML(path, url);
+      const html = showBotView ? generateBotHTML(path, url) : generateHumanHTML(path, url);
 
       // Return response with appropriate headers
       return new Response(html, {
@@ -63,4 +66,4 @@ export default {
       });
     }
   },
-};
+} satisfies ExportedHandler<Env>;

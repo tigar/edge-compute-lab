@@ -1,12 +1,30 @@
 /**
+ * Meta tag data structure
+ */
+export interface MetaTags {
+  /** Page title */
+  title: string;
+  /** Page description */
+  description: string;
+  /** Open Graph image URL */
+  image: string;
+  /** Canonical URL */
+  url: string;
+  /** Open Graph type (website, article, product, etc.) */
+  type: string;
+  /** Site name */
+  siteName: string;
+}
+
+/**
  * Generates meta tags based on the URL path and optional data
  * @param {string} path - The URL path
  * @param {Object} data - Optional data for generating meta tags
  * @returns {Object} Meta tag data including title, description, image, etc.
  */
-export function generateMetaTags(path, data = {}) {
+export function generateMetaTags(path: string, data: Partial<MetaTags> = {}): MetaTags {
   // Default meta tags
-  const defaults = {
+  const defaults: MetaTags = {
     title: 'Edge Compute Lab',
     description: 'Dynamic meta tag generation for bots and humans',
     image: 'https://placehold.co/1200x630/png',
@@ -31,7 +49,7 @@ export function generateMetaTags(path, data = {}) {
  * @param {string} path - The URL path
  * @returns {Object} Path-specific metadata
  */
-function getPathMetadata(path) {
+function getPathMetadata(path: string): Partial<MetaTags> {
   // Remove trailing slash and split path
   const segments = path.replace(/\/$/, '').split('/').filter(Boolean);
 
@@ -74,12 +92,12 @@ function getPathMetadata(path) {
  * @param {string} slug - The URL slug
  * @returns {string} Formatted title
  */
-function formatTitle(slug) {
+function formatTitle(slug: string): string {
   if (!slug) return '';
 
   return slug
     .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 }
 
@@ -88,7 +106,7 @@ function formatTitle(slug) {
  * @param {Object} meta - Meta tag data
  * @returns {string} HTML string with Open Graph meta tags
  */
-export function generateOpenGraphTags(meta) {
+export function generateOpenGraphTags(meta: MetaTags): string {
   return `
     <meta property="og:title" content="${escapeHtml(meta.title)}" />
     <meta property="og:description" content="${escapeHtml(meta.description)}" />
@@ -104,13 +122,13 @@ export function generateOpenGraphTags(meta) {
  * @param {string} str - The string to escape
  * @returns {string} Escaped string
  */
-function escapeHtml(str) {
-  const map = {
+function escapeHtml(str: string): string {
+  const map: Record<string, string> = {
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#39;',
   };
-  return str.replace(/[&<>"']/g, m => map[m]);
+  return str.replace(/[&<>"']/g, (m) => map[m]);
 }

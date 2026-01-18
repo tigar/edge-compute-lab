@@ -1,7 +1,4 @@
-import {
-  generateMetaTags,
-  generateOpenGraphTags,
-} from '../utils/metaTags.js';
+import { generateMetaTags, generateOpenGraphTags, type MetaTags } from '../utils/metaTags.js';
 
 /**
  * Generates full HTML for bot crawlers with complete meta tags
@@ -9,14 +6,14 @@ import {
  * @param {URL} url - The full URL object
  * @returns {string} Complete HTML document for bots
  */
-export function generateBotHTML(path, url) {
-  const meta = generateMetaTags(path, {});
-  const ogTags = generateOpenGraphTags(meta);
+export function generateBotHTML(path: string, url: URL): string {
+  const meta: MetaTags = generateMetaTags(path, {});
+  const ogTags: string = generateOpenGraphTags(meta);
 
   // Generate human view URL
   const humanUrl = new URL(url);
   humanUrl.searchParams.set('view', 'human');
-  const humanViewLink = humanUrl.toString();
+  const humanViewLink: string = humanUrl.toString();
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -78,13 +75,13 @@ export function generateBotHTML(path, url) {
  * @param {URL} url - The full URL object
  * @returns {string} Minimal HTML shell for humans
  */
-export function generateHumanHTML(path, url) {
-  const meta = generateMetaTags(path, {});
+export function generateHumanHTML(path: string, url: URL): string {
+  const meta: MetaTags = generateMetaTags(path, {});
 
   // Generate bot view URL
   const botUrl = new URL(url);
   botUrl.searchParams.set('view', 'bot');
-  const botViewLink = botUrl.toString();
+  const botViewLink: string = botUrl.toString();
 
   return `<!DOCTYPE html>
 <html lang="en">
