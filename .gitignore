@@ -3,6 +3,14 @@ node_modules/
 yarn-error.log
 npm-debug.log*
 
+# Yarn
+.yarn/releases/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
 # Cloudflare Workers
 .wrangler/
 .dev.vars
