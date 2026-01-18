@@ -1,7 +1,6 @@
 import {
   generateMetaTags,
   generateOpenGraphTags,
-  generateTwitterCardTags,
 } from '../utils/metaTags.js';
 
 /**
@@ -13,7 +12,6 @@ import {
 export function generateBotHTML(path, customMeta = {}) {
   const meta = generateMetaTags(path, customMeta);
   const ogTags = generateOpenGraphTags(meta);
-  const twitterTags = generateTwitterCardTags(meta);
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -24,8 +22,6 @@ export function generateBotHTML(path, customMeta = {}) {
   <meta name="description" content="${meta.description}" />
 
   ${ogTags}
-
-  ${twitterTags}
 
   <link rel="canonical" href="${meta.url}" />
 </head>

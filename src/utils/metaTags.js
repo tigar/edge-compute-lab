@@ -100,20 +100,6 @@ export function generateOpenGraphTags(meta) {
 }
 
 /**
- * Generates Twitter Card meta tag HTML
- * @param {Object} meta - Meta tag data
- * @returns {string} HTML string with Twitter Card meta tags
- */
-export function generateTwitterCardTags(meta) {
-  return `
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="${escapeHtml(meta.title)}" />
-    <meta name="twitter:description" content="${escapeHtml(meta.description)}" />
-    <meta name="twitter:image" content="${escapeHtml(meta.image)}" />
-  `.trim();
-}
-
-/**
  * Escapes HTML special characters to prevent XSS
  * @param {string} str - The string to escape
  * @returns {string} Escaped string
